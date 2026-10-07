@@ -8,10 +8,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Controller untuk menangkap input teks
   TextEditingController inputEmail = TextEditingController();
   TextEditingController inputPassword = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +20,13 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Color.fromARGB(225, 236, 125, 190),
       body: Column(
         children: [
-          // Input Email / Username
+          Center(
+            child: Image(
+              image: AssetImage('asset/orang-removebg-preview.png'),
+              width: 200,
+              height: 200,
+            ),
+          ),
           Center(
             child: Container(
               width: 300,
@@ -38,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 10),
 
-          // Input Password
           Center(
             child: Container(
               width: 300,
@@ -55,7 +58,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 10),
 
-          // Tombol Login
           ElevatedButton(
             child: Text("Login"),
             onPressed: () {

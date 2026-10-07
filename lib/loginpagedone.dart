@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  // Menjalankan fungsi utama aplikasi Flutter
+  // Menjalankan aplikasi Flutter utama
   runApp(const MyApp());
 }
 
-// Widget utama aplikasi
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Mengatur konfigurasi utama aplikasi
     return MaterialApp(
-      // Menghilangkan banner tulisan DEBUG di pojok kanan atas
-      debugShowCheckedModeBanner: false,
-      title: 'Aplikasi Absensi',
+      debugShowCheckedModeBanner: false, // Menghilangkan banner debug
+      title: 'Aplikasi Absensi Login',
       theme: ThemeData(
-        // Menentukan tema warna dasar aplikasi
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.pink, // Menentukan tema warna dasar
       ),
-      // Menentukan halaman awal yang akan ditampilkan (LoginPage)
-      home: const LoginPage(),
+      home: const LoginPage(), // Halaman awal aplikasi adalah LoginPage
     );
   }
 }
@@ -36,42 +33,42 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Pembuatan controller untuk menangkap teks inputan username
+  // Controller untuk mengambil inputan username
   final TextEditingController _usernameController = TextEditingController();
-
-  // Pembuatan controller untuk menangkap teks inputan password
+  
+  // Controller untuk mengambil inputan password
   final TextEditingController _passwordController = TextEditingController();
 
-  // Variabel penampung pesan error jika inputan bermasalah
+  // Pesan error jika terjadi kesalahan saat login
   String _errorMessage = '';
 
-  // Fungsi logik untuk menangani proses login
+  // Fungsi untuk menangani proses login
   void _handleLogin() {
-    // Mengambil nilai teks dari controller dan menghapus spasi di awal/akhir
+    // Ambil nilai teks dari inputan username dan password
     String username = _usernameController.text.trim();
     String password = _passwordController.text.trim();
 
-    // a. Kalau username / password kosong, tidak bisa routing
+    // a. Kalau username / password kosong, tidak bisa routing (tampilkan pesan)
     if (username.isEmpty || password.isEmpty) {
       setState(() {
         _errorMessage = 'Username dan password tidak boleh kosong!';
       });
-      return; // Berhenti di sini, tidak lanjut ke halaman berikutnya
+      return;
     }
 
     // b. Kalau username = admin dan password = 12345
     if (username == 'admin' && password == '12345') {
       setState(() {
-        _errorMessage = ''; // Mengosongkan pesan error jika berhasil
+        _errorMessage = ''; // Hapus pesan error jika ada
       });
 
-      // Pindah ke homepage dan tidak bisa kembali ke login (pushReplacement)
+      // Pindah ke homepage dan tidak bisa kembali ke halaman login (pushReplacement)
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
-      // Jika kredensial tidak sesuai
+      // Jika username atau password tidak sesuai
       setState(() {
         _errorMessage = 'Username atau password salah!';
       });
@@ -80,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    // Membersihkan controller dari memori ketika widget tidak digunakan
+    // Membersihkan controller agar tidak membebankan memori
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -89,26 +86,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Mengatur warna latar belakang halaman login
+      // Mengatur latar belakang halaman login
       backgroundColor: const Color.fromARGB(225, 236, 125, 190),
       appBar: AppBar(
-        // Judul AppBar halaman login
-        title: const Text("absensi"),
-        backgroundColor: const Color.fromARGB(0, 50, 145, 145),
+        // Judul AppBar
+        title: const Text("Login Absensi"),
+        backgroundColor: const Color.fromARGB(255, 180, 50, 120),
       ),
       body: Center(
-        // Membungkus dengan SingleChildScrollView agar tampilan aman dari overflow saat keyboard muncul
+        // Widget pembungkus agar bisa di-scroll pada layar kecil
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // d. Gambar dimasukkan dari path asset/
+              // d. Memasukkan gambar dari asset/img/ui ux.png
               Image.asset(
-                'asset/orang-removebg-preview.png',
+                'asset/img/ui ux.png',
                 height: 120,
                 fit: BoxFit.contain,
-                // Penanganan jika gambar gagal dimuat/belum terdaftar
+                // Handler jika gambar belum diimport / file belum dipasang
                 errorBuilder: (context, error, stackTrace) {
                   return const Icon(
                     Icons.account_circle,
@@ -119,25 +116,23 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
 
-              // Container pembungkus form input
+              // Wadah inputan (Container)
               Container(
-                width: 300,
+                width: 320,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  // Warna kotak pembungkus input
-                  color: const Color.fromARGB(197, 220, 155, 155),
-                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromARGB(197, 220, 155, 155), // Warna background container
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
                     // Input TextField Username
                     TextField(
-                      controller: _usernameController,
+                      controller: _usernameController, // Menghubungkan ke controller username
                       decoration: const InputDecoration(
-                        // c. Icon harus muncul (icon pengguna)
-                        prefixIcon: Icon(Icons.person),
-                        // Dekorasi untuk Petunjuk Pengisian dan Garis
-                        hintText: 'Masukan Nama Kamu',
+                        // c. Icon harus muncul
+                        prefixIcon: Icon(Icons.person), // Icon pengguna
+                        hintText: 'Masukkan Username',
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
                         filled: true,
@@ -147,12 +142,12 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Input TextField Password
                     TextField(
-                      controller: _passwordController,
-                      obscureText: true, // Menyembunyikan tampilan teks password
+                      controller: _passwordController, // Menghubungkan ke controller password
+                      obscureText: true, // Menyembunyikan karakter password
                       decoration: const InputDecoration(
-                        // c. Icon harus muncul (icon gembok)
-                        prefixIcon: Icon(Icons.lock),
-                        hintText: 'Masukan Password Kamu',
+                        // c. Icon harus muncul
+                        prefixIcon: Icon(Icons.lock), // Icon kunci password
+                        hintText: 'Masukkan Password',
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
                         filled: true,
@@ -160,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 10),
 
-                    // Menampilkan teks error merah jika timbul kesalahan
+                    // Menampilkan teks error jika ada kesalahan
                     if (_errorMessage.isNotEmpty)
                       Text(
                         _errorMessage,
@@ -168,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                   ],
                 ),
@@ -177,11 +171,13 @@ class _LoginPageState extends State<LoginPage> {
 
               // Tombol Login
               ElevatedButton.icon(
-                // Memanggil fungsi login saat tombol ditekan
-                onPressed: _handleLogin,
-                // c. Icon harus muncul di dalam tombol
+                onPressed: _handleLogin, // Memanggil fungsi validasi login saat ditekan
+                // c. Icon harus muncul pada tombol
                 icon: const Icon(Icons.login),
-                label: const Text("Tampilkan Nama / Login"),
+                label: const Text("Masuk"),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
               ),
             ],
           ),
@@ -202,18 +198,16 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       // AppBar Halaman Utama
       appBar: AppBar(
-        title: const Text("absensi - Homepage"),
+        title: const Text("absensi - Home"),
         backgroundColor: const Color.fromARGB(255, 180, 50, 120),
-        // Menghilangkan tombol kembali agar tidak bisa back ke halaman login
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, // Menghilangkan tombol back agar tidak bisa kembali ke Login
       ),
-      // Warna background homepage
       backgroundColor: const Color.fromARGB(225, 236, 125, 190),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // c. Icon berhasil/sukses di halaman utama
+            // c. Icon sukses di HomePage
             const Icon(
               Icons.check_circle_outline,
               size: 80,
@@ -221,7 +215,7 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              "Selamat Datang di Homepage!",
+              "Selamat Datang di Homepage Admin!",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
